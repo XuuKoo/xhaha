@@ -32,7 +32,7 @@ const inviteCodes = [
   'T01646wsCEdIqgmOIh7yCjVWmIaW5kRrbA@T0205KkcH31ukzaTWE6KxoBICjVWmIaW5kRrbA',
   'T01646wsCEdIqgmOIh7yCjVWmIaW5kRrbA@T0205KkcH31ukzaTWE6KxoBICjVWmIaW5kRrbA'
 ];
-const randomCount = $.isNode() ? 20 : 5;
+const randomCount = $.isNode() ? 20 : 0;
 const notify = $.isNode() ? require('./sendNotify') : '';
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie

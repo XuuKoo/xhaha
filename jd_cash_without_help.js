@@ -29,8 +29,8 @@ let cookiesArr = [], cookie = '', message;
 let helpAuthor = false;
 const randomCount = $.isNode() ? 20 : 0;
 const inviteCodes = [
-  `fkpoJLXjOaF_82rT@eU9YM4_FAJ5iiTqrmQRR@eU9YNpnNHLlDhBGNjg5S`,
-  `fkpoJLXjOaF_82rT@eU9YM4_FAJ5iiTqrmQRR@eU9YNpnNHLlDhBGNjg5S`
+  ``,
+  ``
 ]
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -84,8 +84,8 @@ let allMessage = '';
     })
 async function jdCash() {
   await index()
-  await shareCodesFormat()
-  await helpFriends()
+  //await shareCodesFormat()
+  //await helpFriends()
   await index(true)
   await getReward()
   await getReward('2')
