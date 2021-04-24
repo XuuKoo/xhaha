@@ -1,0 +1,141 @@
+# 腾讯
+USER-AGENT,QQ*
+#USER-AGENT,QQBrowser*
+USER-AGENT,MicroMessenger*
+USER-AGENT,wechat*
+USER-AGENT,weixin*
+USER-AGENT,%E5%BE%AE%E4%BF%A1*#微信
+USER-AGENT,%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1*#企业微信
+USER-AGENT,Tencent*
+#USER-AGENT,QQ%E9%9F%B3%E4%B9%90*#QQ音乐
+#USER-AGENT,QQmusic*
+#USER-AGENT,QQ%E9%82%AE%E7%AE%B1*#QQ邮箱
+USER-AGENT,sosomap*
+#USER-AGENT,qqmobiletoken*
+USER-AGENT,%E8%85%BE%E8%AE%AF*#腾讯
+USER-AGENT,TIM*
+USER-AGENT,%E5%85%A8%E6%B0%91K%E6%AD%8C*#全民K歌
+# 阿里
+USER-AGENT,AliyunLogClientObjc*,REJECT
+USER-AGENT,%E9%98%BF%E9%87%8C*#阿里
+USER-AGENT,aliapp*
+USER-AGENT,alipay*
+USER-AGENT,%E6%94%AF%E4%BB%98%E5%AE%9D*#支付宝
+USER-AGENT,taobao*
+USER-AGENT,TaoBrowser*
+USER-AGENT,%E6%B7%98%E5%AE%9D*#淘宝
+USER-AGENT,%E6%89%8B%E6%9C%BA%E6%B7%98%E5%AE%9D*#手机淘宝
+USER-AGENT,%E5%A4%A9%E7%8C%AB*#天猫
+USER-AGENT,MTOPSDK*
+USER-AGENT,cainiao*
+USER-AGENT,%E5%92%B8%E9%B1%BC*#咸鱼
+USER-AGENT,xiami*
+USER-AGENT,tbios*
+USER-AGENT,moon*
+USER-AGENT,koubei*
+USER-AGENT,eleme*
+USER-AGENT,walkman*
+USER-AGENT,%E4%BC%98%E9%85%B7*#优酷
+USER-AGENT,%E9%A3%9E%E7%8C%AA*#飞猪
+# 百度
+USER-AGENT,%E7%99%BE%E5%BA%A6*#百度
+USER-AGENT,BIDUBrowser*
+USER-AGENT,netdisk*
+USER-AGENT,tbclient*
+USER-AGENT,baidu*
+USER-AGENT,bdtb*
+USER-AGENT,%E8%B4%B4%E5%90%A7*#贴吧
+USER-AGENT,dart*
+USER-AGENT,eos*
+USER-AGENT,securitycenter*
+USER-AGENT,bdtapp
+USER-AGENT,bdtranslate*
+USER-AGENT,PPSC_iOS*
+# 微博
+USER-AGENT,weibo*
+# 小红书
+USER-AGENT,discover*
+# 抖音
+USER-AGENT,aweme*
+USER-AGENT,AVDML*
+USER-AGENT,ttplayer*
+# 知乎
+USER-AGENT,zhihu*
+USER-AGENT,osee2unifiedrelease*
+# 苏宁
+USER-AGENT,suning*
+USER-AGENT,snclinet*
+USER-AGENT,snebuy*
+# 京东
+USER-AGENT,%E4%BA%AC%E4%B8%9C*#京东
+USER-AGENT,jdapp*
+USER-AGENT,jdlife*
+USER-AGENT,jingdong*
+USER-AGENT,jd4iphone*
+USER-AGENT,%e4%ba%ac%e5%96%9c*#京喜
+USER-AGENT,jdpingou*
+# 拼多多
+USER-AGENT,pdd_webview*
+USER-AGENT,pinduoduo*
+# 网易
+USER-AGENT,netease*
+USER-AGENT,%E7%BD%91%E6%98%93*#网易
+USER-AGENT,youdao*
+# 美团
+USER-AGENT,%E7%BE%8E%E5%9B%A2*
+USER-AGENT,dianping*
+USER-AGENT,meituan*
+USER-AGENT,%E5%A4%A7%E4%BC%97%E7%82%B9%E8%AF%84*#大众点评
+# 什么值得买
+USER-AGENT,smzdm*
+# 唱吧
+USER-AGENT,%E5%94%B1%E5%90%A7*#唱吧
+# 高德地图
+USER-AGENT,amapiphone*
+USER-AGENT,AMAP_SDK*
+# 滴滴出行
+USER-AGENT,onetravel*
+USER-AGENT,uber*
+USER-AGENT,%E4%BC%98%E6%AD%A5*#优步
+# 金山词霸
+USER-AGENT,powerword*
+# 哔哩哔哩
+USER-AGENT,%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9*#哔哩哔哩
+USER-AGENT,bili-universal*
+# 联通手厅
+USER-AGENT,ChinaUnicom*
+# 建行
+USER-AGENT,%E5%BB%BA%E8%A1%8C*#建行
+# 渤海银行
+USER-AGENT,BHiphoneBank*
+# 云闪付
+USER-AGENT,iPhone CHSP#云闪付
+USER-AGENT,wallet*#云闪付
+# 工行
+USER-AGENT,ICBC*
+USER-AGENT,%E4%B8%AD%E5%9B%BD%E5%B7%A5%E5%95%86%E9%93%B6%E8%A1%8C*#中国工商银行
+USER-AGENT,CIOS*
+USER-AGENT,eLife*
+# 中信银行
+USER-AGENT,Citic*
+# 浦发银行
+USER-AGENT,%E6%B5%A6%E5%A4%A7%E5%96%9C%E5%A5%94*#浦大喜奔
+# 光大银行
+USER-AGENT,%E5%85%89%E5%A4%A7%E9%93%B6%E8%A1%8C*#光大银行
+# 兴业银行
+USER-AGENT,CIBMobileBank*
+# 个人所得税
+USER-AGENT,itis*
+# 人民日报
+USER-AGENT,%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5*#人民日报
+# 学习强国
+USER-AGENT,%E5%AD%A6%E4%B9%A0%E5%BC%BA%E5%9B%BD*#学习强国
+# 铁路12306
+USER-AGENT,MTPotal*
+# 非常准
+USER-AGENT,VeryZhun*
+USER-AGENT,%E9%A3%9E%E5%B8%B8%E5%87%86*#飞常准
+# 航旅纵横
+USER-AGENT,Umetrip*
+# 公务行
+USER-AGENT,%E5%85%AC%E5%8A%A1%E8%A1%8C*#公务行
