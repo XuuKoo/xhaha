@@ -53,7 +53,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
   }
   //await getAuthorShareCode('http://cdn.annnibb.me/jd_zz.json');
   //await getAuthorShareCode('https://raw.githubusercontent.com/gitupdate/updateTeam/master/shareCodes/jd_zz.json');
-  await getRandomCode();
+  //await getRandomCode();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
