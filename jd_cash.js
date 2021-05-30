@@ -86,7 +86,7 @@ let allMessage = '';
     })
 async function jdCash() {
   await index()
-  //await shareCodesFormat()
+  await shareCodesFormat()
   await helpFriends()
   await getReward()
   await getReward('2');
