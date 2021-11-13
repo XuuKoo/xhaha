@@ -664,7 +664,7 @@ function userInfo() {
                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.user.encryptPin}`);
                 jdDreamFactoryShareArr.push(data.user.encryptPin)
                 await $.get({
-                  url: 'http://51.15.187.136:8080/activeJdFactoryCode?code=' + data.user.encryptPin
+                  url: 'http://106.13.233.51:8080/activeJdFactoryCode?code=' + data.user.encryptPin
                 }, function (err, resp, data) {
                   console.log('互助码状态:' + resp.body);
                 })
