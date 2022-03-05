@@ -456,12 +456,12 @@ async function helpFriends() {
   }
   if ($.canHelpFlag) {
     await shareCodesFormat();
-    /*if ($.isNode() && !process.env.DREAM_FACTORY_SHARE_CODES) {
+    if ($.isNode() && !process.env.DREAM_FACTORY_SHARE_CODES) {
       console.log(`您未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
       $.newShareCode = [...(jdDreamFactoryShareArr || []), ...(newShareCodes || [])]
     } else {
       $.newShareCode = newShareCodes
-    }*/
+    }
     for (let code of $.newShareCode) {
       if (code) {
         if ($.encryptPin === code) {
@@ -1551,7 +1551,8 @@ function taskurl(functionId, body = '', stk) {
       'Accept-Language': 'zh-cn',
       'Referer': 'https://wqsd.jd.com/pingou/dream_factory/index.html',
       'Accept-Encoding': 'gzip, deflate, br',
-    }
+    },
+    timeout: 10000
   }
 }
 function newtasksysUrl(functionId, taskId, stk) {
@@ -1632,7 +1633,7 @@ async function requestAlgo() {
       "expandParams": ""
     })
   }
-  new Promise(async resolve => {
+  return new Promise(async resolve => {
     $.post(options, (err, resp, data) => {
       try {
         if (err) {
