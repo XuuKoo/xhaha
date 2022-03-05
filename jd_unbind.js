@@ -1,27 +1,19 @@
 /*
-注销京东会员卡
+生成注销京东会员卡的链接，需要点链接手动退会
 是注销京东已开的店铺会员,不是京东plus会员
 查看已开店铺会员入口:我的=>我的钱包=>卡包
-脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
-==========Quantumult X==========
-[task_local]
-#注销京东会员卡
-55 23 * * 6 https://gitee.com/lxk0301/jd_scripts/raw/master/jd_unbind.js, tag=注销京东会员卡, img-url= https://raw.githubusercontent.com/58xinian/icon/master/jd_unbind.png, enabled=true
-=======Loon========
-[Script]
-cron "55 23 * * 6" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_unbind.js,tag=注销京东会员卡
-========Surge==========
-注销京东会员卡 = type=cron,cronexp="55 23 * * 6",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_unbind.js
-=======小火箭=====
-注销京东会员卡 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_unbind.js, cronexpr="10 23 * * 6", timeout=3600, enable=true
+运行一次最多获取10个链接
+https://github.com/6dylan6/jdpro.git
  */
-const $ = new Env('注销京东会员卡');
+const $ = new Env('店铺会员退会链接');
 //Node.js用户请在jdCookie.js处填写京东ck;
-const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
-const notify = $.isNode() ? require('../sendNotify') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
+let allMessage = ''
+let message = ''
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -31,37 +23,43 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const jdNotify = $.getdata('jdUnbindCardNotify');//是否关闭通知，false打开通知推送，true关闭通知推送
-let cardPageSize = 200;// 运行一次取消多少个会员卡。数字0表示不注销任何会员卡
+let cardPageSize = 10;// 运行一次生产多少个链接,一次最多读取10个。
 let stopCards = `京东PLUS会员`;//遇到此会员卡跳过注销,多个使用&分开
 const JD_API_HOST = 'https://api.m.jd.com/';
 !(async () => {
-  if (!cookiesArr[0]) {
-    $.msg('【京东账号一】注销京东会员卡失败', '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-  }
-  await requireConfig()
-  for (let i = 0; i < cookiesArr.length; i++) {
-    if (cookiesArr[i]) {
-      cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      $.index = i + 1;
-      $.isLogin = true;
-      $.nickName = '';
-      $.unsubscribeCount = 0
-      $.cardList = []
-      await TotalBean();
-      console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        }
-        continue
-      }
-      await jdUnbind();
-      await showMsg();
+  console.log('一次最多生成10个退会链接，在绑定的微信打开退会链接操作！\n')
+  if (process.env.QCARD && process.env.QCARD === 'true') {
+    if (!cookiesArr[0]) {
+      $.msg('【京东账号一】注销京东会员卡失败', '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     }
-  }
+    await requireConfig()
+    for (let i = 0; i < cookiesArr.length; i++) {
+      if (cookiesArr[i]) {
+        cookie = cookiesArr[i];
+        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+        $.index = i + 1;
+        $.isLogin = true;
+        $.nickName = '';
+        $.unsubscribeCount = 0
+        $.cardList = []
+        await TotalBean();
+        console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
+        if (!$.isLogin) {
+          $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+    
+          if ($.isNode()) {
+            await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+          }
+          continue
+        }
+        await jdUnbind();
+        await showMsg();
+      }
+    }
+    await notify.sendNotify(`${$.name}`, `${allMessage}`)
+  } else {
+        console.log('默认不执行，请设置变量export QCARD=true')	  
+    }
 })()
     .catch((e) => {
       $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -74,7 +72,9 @@ async function jdUnbind() {
   await unsubscribeCards()
 }
 async function unsubscribeCards() {
+  message = `【京东账号${$.index}🆔】${$.nickName}\n`;
   let count = 0
+  $.pushcardList=[]
   for (let item of $.cardList) {
     if (count === cardPageSize * 1){
       console.log(`已达到设定数量:${cardPageSize * 1}`)
@@ -84,35 +84,66 @@ async function unsubscribeCards() {
       console.log(`匹配到了您设定的会员卡【${item.brandName}】不再进行取消关注会员卡`)
       continue;
     }
-    console.log(`去注销会员卡【${item.brandName}】`)
+    console.log(`【${item.brandName}】注销链接`)
     let res = await unsubscribeCard(item.brandId);
-    if (res['success']) {
-      if (res['busiCode'] === '200') {
-        count++;
-        $.unsubscribeCount ++
-      }
-    }
-    await $.wait(1000)
+    $.pushcardList.push(`【${item.brandName}】注销链接`)
+    $.pushcardList.push(`https://shopmember.m.jd.com/member/memberCloseAccount?venderId=${item.brandId}`)
+     //if (res['success']) {
+       //if (res['busiCode'] === '200') {
+    count++;
+    $.unsubscribeCount ++
+       //}
+     //}
+     await $.wait(1000)
   }
+
+  let push_len = $.pushcardList.length
+  let push_lena = parseInt(push_len/20)
+  let push_lenb = push_len%20
+
+  if (push_lena == 0) {
+    //let message = ''
+    for (a = 0; a < push_len; a++){
+      message = message + $.pushcardList[a] + '\n'
+    }
+    //await notify.sendNotify(`京东会员卡注消链接`, `【京东账号${$.index}】${$.UserName}\n${message}`);
+  } else {
+    let step = 0
+    for (step = 0; step < push_lena; step++){
+      //let message = ''
+      for (a = 0; a < 20; a++){
+        message = message + $.pushcardList[a+step*20] + '\n'
+      }
+      //await notify.sendNotify(`京东会员卡注消链接`, `【京东账号${$.index}】${$.UserName}\n${message}`);
+    }
+
+    //let message = ''
+    for (b = 0; b < push_lenb; b++){
+      message = message + $.pushcardList[b+step*20] + '\n'
+    }
+    //await notify.sendNotify(`京东会员卡注消链接`, `【京东账号${$.index}】${$.UserName}\n${message}`);
+  }
+
 }
 function showMsg() {
   if (!jdNotify || jdNotify === 'false') {
-    $.msg($.name, ``, `【京东账号${$.index}】${$.nickName}\n【已注销会员卡】${$.unsubscribeCount}个\n【还剩会员卡】${$.cardsTotalNum-$.unsubscribeCount}个\n`);
+	allMessage += `${message}`
+    //$.msg($.name, ``, `【京东账号${$.index}】${$.nickName}\n【本次生成退会链接】${$.cardsTotalNum-$.unsubscribeCount}个\n`);
   } else {
-    $.log(`\n【京东账号${$.index}】${$.nickName}\n【已注销会员卡】${$.unsubscribeCount}个\n【还剩会员卡】${$.cardsTotalNum-$.unsubscribeCount}个\n`);
+    //$.log(`\n【京东账号${$.index}】${$.nickName}\n【本次生成退会链接】${$.cardsTotalNum-$.unsubscribeCount}个\n`);
   }
 }
 function getCards() {
   return new Promise((resolve) => {
     const option = {
-      url: `${JD_API_HOST}client.action?functionId=getWalletReceivedCardList`,
-      body: 'body=%7B%22version%22%3A1580659200%7D&build=167490&client=apple&clientVersion=9.3.2&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&rfs=0000&scope=01&sign=aa00f715800e252fcebcb11573f4a505&st=1608612985755&sv=102',
+      url: `${JD_API_HOST}client.action?functionId=getWalletReceivedCardList_New`,
+      body: 'body=%7B%22v%22%3A%224.3%22%2C%22version%22%3A1580659200%7D&build=167668&client=apple&clientVersion=9.5.4&openudid=c5eb641f1e40b339e2e111619f22ef1e5fdc7834&rfs=0000&scope=01&sign=c18a161ddaf21f44e9cd56a8db29362e&st=1621407560442&sv=101',
       headers: {
         "Host": "api.m.jd.com",
         "Accept": "*/*",
         "Connection": "keep-alive",
         "Cookie": cookie,
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('../USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
         "Accept-Language": "zh-cn",
         "Accept-Encoding": "gzip, deflate, br"
       },
@@ -134,6 +165,7 @@ function getCards() {
       } finally {
         resolve(data);
       }
+      //console.log($.cardList)
     });
   })
 }
@@ -146,7 +178,7 @@ function unsubscribeCard(vendorId) {
         "Accept": "*/*",
         "Connection": "keep-alive",
         'origin': 'https://shopmember.m.jd.com',
-        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('../USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
         'Referer': `https://shopmember.m.jd.com/member/memberCloseAccount?venderId=${vendorId}`,
         'Cookie': cookie,
         "Accept-Language": "zh-cn",
@@ -161,7 +193,7 @@ function unsubscribeCard(vendorId) {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data)
-            console.log(data.message)
+            console.log(`https://shopmember.m.jd.com/member/memberCloseAccount?venderId=${vendorId}`)
           }
         }
       } catch (e) {
@@ -184,7 +216,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('../USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
       }
     }
     $.post(options, (err, resp, data) => {
